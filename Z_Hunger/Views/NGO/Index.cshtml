@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Z_Hunger.EF.CollectionRequest>
 @{
     Layout = "~/Views/Shared/_NGOL.cshtml";
     ViewBag.Title = "Index";
@@ -6,7 +6,71 @@
 
 <h2>Index</h2>
 
-<a href="/NGO/AddEmployee/" class="btn btn-primary">Add Employee</a>
-<a href="/NGO/ViewRequest/" class="btn btn-primary">Pending Request</a>
+<a href="/NGO/EmployeeList/" class="btn btn-primary">Employee</a>
 <a href="/NGO/CompletedRequest/" class="btn btn-danger">Request Completed</a>
 <a href="/NGO/RejectedRequest/" class="btn btn-danger">Rejected Request</a>
+
+<br>
+<br>
+<h2>Pending Request</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IteamName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpiredTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RestaurantID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeID)
+        </th>
+        <th>
+            Accept
+        </th>
+
+        <th>
+            Reject
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IteamName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpiredTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RestaurantID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeID)
+            </td>
+            <td>
+                @Html.ActionLink("Accept", "AcceptRequest", new { id = item.CollectionRequestID })
+            </td>
+            <td>
+                @Html.ActionLink("Reject", "RejectRequest", new { id = item.CollectionRequestID })
+            </td>
+        </tr>
+    }
+
+</table>

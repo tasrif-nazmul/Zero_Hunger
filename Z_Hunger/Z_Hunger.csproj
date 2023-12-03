@@ -242,7 +242,6 @@
     <Content Include="Views\NGO\AddEmployee.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Restaurant\RegesterRestaurant.cshtml" />
-    <Content Include="Views\Restaurant\Index.cshtml" />
     <Content Include="Views\Restaurant\CreateRequest.cshtml" />
     <Content Include="Views\NGO\ViewRequest.cshtml" />
     <Content Include="Views\NGO\RejectRequest.cshtml" />
@@ -259,6 +258,8 @@
     <Content Include="Views\Restaurant\Logout.cshtml" />
     <Content Include="Views\NGO\Logout.cshtml" />
     <Content Include="Views\NGO\CompletedRequest.cshtml" />
+    <Content Include="Views\Restaurant\Index.cshtml" />
+    <Content Include="Views\NGO\EmployeeList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

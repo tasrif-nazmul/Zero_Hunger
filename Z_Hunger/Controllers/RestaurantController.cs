@@ -15,7 +15,11 @@ namespace Z_Hunger.Controllers
         [RLogged]
         public ActionResult Index()
         {
-            return View();
+            int RestaurantID = (int)Session["RestaurantID"];
+            var db = new ZeroHungerEntities1();
+            var data = db.CollectionRequests.Where(e => e.RestaurantID == RestaurantID && e.Status == "Requesting").ToList();
+            return View(data);
+            
         }
 
      
@@ -123,6 +127,15 @@ namespace Z_Hunger.Controllers
             return View(data);
         }
 
+        //[RLogged]
+        public ActionResult DeleteReq(int id)
+        {
+            var db = new ZeroHungerEntities1();
+            var exData = db.CollectionRequests.Find(id);
+            db.CollectionRequests.Remove(exData);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         [RLogged]
         public ActionResult Logout()

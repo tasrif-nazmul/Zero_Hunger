@@ -15,7 +15,9 @@ namespace Z_Hunger.Controllers
         [Logged]
         public ActionResult Index()
         {
-            return View();
+            var db = new ZeroHungerEntities1();
+            var data = db.CollectionRequests.Where(cr => cr.Status == "Requesting").ToList();
+            return View(data);
         }
 
 
@@ -91,12 +93,12 @@ namespace Z_Hunger.Controllers
 
 
         [Logged]
-        public ActionResult ViewRequest()
-        {
-            var db = new ZeroHungerEntities1();
-            var data = db.CollectionRequests.Where(cr => cr.Status == "Requesting").ToList();
-            return View(data);
-        }
+        //public ActionResult ViewRequest()
+        //{
+        //    var db = new ZeroHungerEntities1();
+        //    var data = db.CollectionRequests.Where(cr => cr.Status == "Requesting").ToList();
+        //    return View(data);
+        //}
         
         [Logged]
         public ActionResult CompletedRequest()
@@ -125,7 +127,7 @@ namespace Z_Hunger.Controllers
             var exData = db.CollectionRequests.Find(cr.CollectionRequestID);
             exData.Status = "Rejected";
             db.SaveChanges();
-            return RedirectToAction("ViewRequest");
+            return RedirectToAction("Index");
         }
 
 
@@ -139,11 +141,34 @@ namespace Z_Hunger.Controllers
             return View(data);    
         }
 
+        //[Logged]
+        //[HttpGet]
+        //public ActionResult AcceptRequest(int id)
+        //{
+        //    var db = new ZeroHungerEntities1();
+        //    var ExData = db.CollectionRequests.FirstOrDefault(n => n.CollectionRequestID == id);
+        //    return View(ExData);
+        //}
+
+        //[Logged]
+        //[HttpPost]
+        //public ActionResult AcceptRequest(CollectionRequest cr)
+        //{
+        //    var db = new ZeroHungerEntities1();
+        //    var exData = db.CollectionRequests.Find(cr.CollectionRequestID);
+        //    exData.Status = "Processing";
+        //    exData.EmployeeID = cr.EmployeeID;
+        //    db.SaveChanges();
+        //    return RedirectToAction("index");
+        //}
+        
         [Logged]
         [HttpGet]
         public ActionResult AcceptRequest(int id)
         {
             var db = new ZeroHungerEntities1();
+            var employees = db.Employees.ToList();
+            ViewBag.EmployeeList = new SelectList(employees, "EmployeeID", "Name");
             var ExData = db.CollectionRequests.FirstOrDefault(n => n.CollectionRequestID == id);
             return View(ExData);
         }
@@ -153,12 +178,38 @@ namespace Z_Hunger.Controllers
         public ActionResult AcceptRequest(CollectionRequest cr)
         {
             var db = new ZeroHungerEntities1();
-            var exData = db.CollectionRequests.Find(cr.CollectionRequestID);
-            exData.Status = "Processing";
-            exData.EmployeeID = cr.EmployeeID;
-            db.SaveChanges();
-            return RedirectToAction("ViewRequest");
+            if (cr != null && cr.EmployeeID.HasValue && cr.EmployeeID > 0)
+            {
+                
+                var exData = db.CollectionRequests.Find(cr.CollectionRequestID);
+                exData.Status = "Processing";
+                exData.EmployeeID = cr.EmployeeID;
+                db.SaveChanges();
+                return RedirectToAction("index");
+            }
+            else
+            {
+                ModelState.AddModelError("EmployeeID", "Please select an Employee");
+
+                // Re-populate the ViewBag.EmployeeList to ensure the dropdown options are available in the view
+                var employees = db.Employees.ToList();
+                ViewBag.EmployeeList = new SelectList(employees, "EmployeeID", "Name");
+
+                // Return the view with the validation errors
+                return View(cr);
+            }
         }
+
+        [Logged]
+        public ActionResult EmployeeList()
+        {
+            var db = new ZeroHungerEntities1();
+            var data = db.Regestrations.Where(r=> r.Role == "employee" || r.Role == "admin").ToList();
+            return View(data);
+        }
+
+
+
 
         [Logged]
         public ActionResult Logout()

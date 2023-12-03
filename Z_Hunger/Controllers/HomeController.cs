@@ -53,7 +53,11 @@ namespace Z_Hunger.Controllers
                     Session["RestaurantID"] = restaurantID;
                     return RedirectToAction("Index", "Restaurant");
                 }
-                return RedirectToAction("Login");
+                else
+                {
+                    ModelState.AddModelError("", "Incorrect Email or Password");
+                    return View();
+                }
             }
 
             else
