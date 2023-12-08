@@ -1,4 +1,4 @@
-Zero Hunger
+# Zero Hunger
 
 We require a system to automate and monitor our operations. As an NGO dedicated to providing meals for underprivileged individuals and children, we've identified a significant amount of food wastage in Dhaka city, particularly from office events and buffets. Our mission is to repurpose this surplus food. We've initiated partnerships with several restaurants, and they have agreed to donate excess food before it expires or to preserve it until we can pick it up. We currently have a team of employees, with ongoing recruitment.
 
